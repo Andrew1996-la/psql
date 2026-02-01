@@ -20,5 +20,9 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("Successfully created table")
+	if err := simple_sql.InsertRow(ctx, conn); err != nil {
+		panic(err)
+	}
+
+	fmt.Println("success")
 }
