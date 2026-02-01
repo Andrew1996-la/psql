@@ -32,5 +32,9 @@ func main() {
 		panic(err)
 	}
 
+	if err := simple_sql.MarkTaskCompleted(ctx, conn, 2); err != nil {
+		panic(err)
+	}
+
 	fmt.Println("success")
 }
