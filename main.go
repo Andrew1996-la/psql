@@ -36,5 +36,9 @@ func main() {
 		panic(err)
 	}
 
+	if err := simple_sql.DeleteRow(ctx, conn, 2); err != nil {
+		panic(err)
+	}
+
 	fmt.Println("success")
 }
