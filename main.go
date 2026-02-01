@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"psql/features_postgres/simple_connection"
 	"psql/features_postgres/simple_sql"
+	"psql/users"
 	"time"
 )
 
@@ -16,6 +17,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	rows, err := users.Pagination(ctx, conn, 2, 5)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(rows)
 
 	if err := simple_sql.CreateTable(ctx, conn); err != nil {
 		panic(err)
