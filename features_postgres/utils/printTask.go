@@ -5,7 +5,7 @@ import (
 	"psql/features_postgres/simple_sql"
 )
 
-func PrintTask(tasks []simple_sql.Task) {
+func PrintTask(tasks []simple_sql.TaskModel) {
 	for _, task := range tasks {
 		fmt.Println("-------------------------------------")
 		fmt.Println("id:", task.ID)

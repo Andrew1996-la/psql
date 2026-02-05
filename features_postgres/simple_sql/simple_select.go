@@ -2,25 +2,15 @@ package simple_sql
 
 import (
 	"context"
-	"time"
 
 	"github.com/jackc/pgx/v5"
 )
-
-type Task struct {
-	ID          int
-	Title       string
-	Description string
-	Completed   bool
-	CreatedAt   time.Time
-	CompletedAt *time.Time
-}
 
 func SelectRows(
 	ctx context.Context,
 	conn *pgx.Conn,
 	limit, offset int,
-) ([]Task, error) {
+) ([]TaskModel, error) {
 	sqlQuery := `
 			SELECT id, title, description, completed, created_at, completed_at
 			FROM tasks
@@ -36,10 +26,10 @@ func SelectRows(
 
 	defer rows.Close()
 
-	var tasks []Task
+	var tasks []TaskModel
 
 	for rows.Next() {
-		var task Task
+		var task TaskModel
 		err := rows.Scan(&task.ID, &task.Title, &task.Description, &task.Completed, &task.CreatedAt, &task.CompletedAt)
 		if err != nil {
 			return nil, err

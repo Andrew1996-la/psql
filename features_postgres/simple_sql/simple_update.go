@@ -6,14 +6,14 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func MarkTaskCompleted(ctx context.Context, conn *pgx.Conn, id int) error {
+func UpdateTask(ctx context.Context, conn *pgx.Conn, task TaskModel) error {
 	sqlQuery := `
 		UPDATE tasks
-		SET completed = true
-		where id = $1
+		SET title = $1, description = $2, completed = $3, completed_at=$4
+		where id = $5
 	`
 
-	_, err := conn.Exec(ctx, sqlQuery, id)
+	_, err := conn.Exec(ctx, sqlQuery, task.Title, task.Description, task.Completed, task.CompletedAt, task.ID)
 
 	return err
 }

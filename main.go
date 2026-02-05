@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"psql/features_postgres/simple_connection"
 	"psql/features_postgres/simple_sql"
-	"psql/features_postgres/utils"
+	"time"
 )
 
 func main() {
@@ -17,41 +17,30 @@ func main() {
 		panic(err)
 	}
 
-	//rows, err := users.Pagination(ctx, conn, 2, 5)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Println(rows)
-
 	if err := simple_sql.CreateTable(ctx, conn); err != nil {
 		panic(err)
 	}
-
-	//if err := simple_sql.InsertRow(
-	//	ctx,
-	//	conn,
-	//	"Покушац",
-	//	"Покушать собранный обед",
-	//	false,
-	//	time.Now(),
-	//); err != nil {
-	//	panic(err)
-	//}
-
-	//if err := simple_sql.MarkTaskCompleted(ctx, conn, 2); err != nil {
-	//	panic(err)
-	//}
-
-	//if err := simple_sql.DeleteRow(ctx, conn, 2); err != nil {
-	//	panic(err)
-	//}
 
 	rows, err := simple_sql.SelectRows(ctx, conn, 200, 0)
 	if err != nil {
 		panic(err)
 	}
 
-	utils.PrintTask(rows)
+	for _, task := range rows {
+		if task.ID == 5 {
+			task.Title = "Покормить хомяка"
+			task.Description = "Отсыпать хомяку порцию корма"
+			task.Completed = true
+			now := time.Now()
+			task.CompletedAt = &now
+
+			err := simple_sql.UpdateTask(ctx, conn, task)
+			if err != nil {
+				panic(err)
+			}
+			break
+		}
+	}
 
 	fmt.Println("success")
 }
