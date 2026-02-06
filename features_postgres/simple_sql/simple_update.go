@@ -2,6 +2,7 @@ package simple_sql
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jackc/pgx/v5"
 )
@@ -13,7 +14,11 @@ func UpdateTask(ctx context.Context, conn *pgx.Conn, task TaskModel) error {
 		where id = $5
 	`
 
-	_, err := conn.Exec(ctx, sqlQuery, task.Title, task.Description, task.Completed, task.CompletedAt, task.ID)
+	ct, err := conn.Exec(ctx, sqlQuery, task.Title, task.Description, task.Completed, task.CompletedAt, task.ID)
+
+	if ct.RowsAffected() == 0 {
+		return fmt.Errorf("task '%s' not found", task.ID)
+	}
 
 	return err
 }
