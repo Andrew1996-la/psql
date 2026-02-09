@@ -1,4 +1,7 @@
 CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
     full_name VARCHAR(200) NOT NULL,
-    phone_number VARCHAR(50)
+    phone_number VARCHAR(50),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
