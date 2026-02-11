@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
 	"psql/features_postgres/simple_connection"
 	"psql/features_postgres/simple_sql"
 	"time"
@@ -10,9 +11,9 @@ import (
 
 func main() {
 	ctx := context.Background()
-	stringConnection := "postgres://postgres:1111@localhost:5432/postgres"
+	connString := os.Getenv("CONN_STRING")
 
-	conn, err := simple_connection.CreateConnection(ctx, stringConnection)
+	conn, err := simple_connection.CreateConnection(ctx, connString)
 	if err != nil {
 		panic(err)
 	}
